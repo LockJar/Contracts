@@ -66,7 +66,7 @@ contract Jar is ERC1155Holder, ERC721Holder {
 
     function unlockFT(uint256 _id, uint256 _amount) external {
         require(_amount > 0, "Jar: Amount must be >0");
-        BondInfo info = bonds[_id];
+        BondInfo memory info = bonds[_id];
         require(block.timestamp >= info.unlockTime, "Jar: Tokens not unlocked yet.");
         this._unlock(_id, _amount);
         IERC20(info.tokenAddress).transfer(msg.sender, _amount);
@@ -78,7 +78,7 @@ contract Jar is ERC1155Holder, ERC721Holder {
     }
 
     function unlockNFT(uint256 _id) external {
-        BondInfo info = bonds[_id];
+        BondInfo memory info = bonds[_id];
         require(block.timestamp >= info.unlockTime, "Jar: Token not unlocked yet.");
         this._unlock(_id, 1);
         IERC721(info.tokenAddress).safeTransferFrom(address(this), msg.sender, info.tokenId);
